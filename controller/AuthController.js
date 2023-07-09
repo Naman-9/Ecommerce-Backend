@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 exports.createUser = async (req, res) => {
   try {
-  console.log("LOGINUSER::::::::::::1", req);
+  
     const salt = crypto.randomBytes(16);
     crypto.pbkdf2(
       req.body.password,
@@ -43,7 +43,7 @@ exports.createUser = async (req, res) => {
 };
 
 exports.loginUser = async (req, res) => {
-  console.log("LOGINUSER::::::::::::", req);
+  
   const user = req.user;
   res
     .cookie('jwt', user.token, {
@@ -64,7 +64,7 @@ exports.logout = async (req, res) => {
 };
 
 exports.checkAuth = async (req, res) => {
-  console.log("CHECKAUTH:", req);
+  
   if (req.user) {
     res.json(req.user);
   } else {

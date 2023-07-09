@@ -3,7 +3,6 @@ const { createUser, loginUser, checkAuth,  resetPasswordRequest, logout, resetPa
 const passport = require('passport');
 
 const router = express.Router();
-// TODO :: /auth/reset-password
 
 router.post('/signup', createUser)
       .post('/login', passport.authenticate('local'), loginUser)

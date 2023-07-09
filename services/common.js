@@ -2,16 +2,14 @@ const nodemailer = require('nodemailer');
 const passport = require('passport');
 
 exports.isAuth = (req, res, next) => {
-  console.log("At Auth::::::::::::::::::;", req);
+  
   passport.authenticate('jwt', { session: false }, (err, user) => {
     if (err || !user) {
       // Handle authentication failure
-      console.log("AuthERROR-----------------------------------", err)
       return res.status(401).json({ message: 'Unauthorized' });
     }
     // Authentication succeeded, attach the user to the request object
     req.user = user;
-    console.log("AuthUSER:::::", user)
     next();
   })(req, res, next);
 };
@@ -32,7 +30,7 @@ exports.cookieExtractor = function (req) {
 
 // Inside the file where `adata` is defined
 exports.adata = (req, res, next) => {
-  console.log("CHECK!::::::::::::", req); 
+   
   next(); // Call next to proceed to the next middleware
 };
 
