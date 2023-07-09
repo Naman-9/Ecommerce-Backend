@@ -59,7 +59,7 @@ server.post(
         break;
       // ... handle other event types
       default:
-        console.log(`Unhandled event type ${event.type}`);
+        
     }
 
     // Return a 200 response to acknowledge receipt of the event
@@ -68,6 +68,7 @@ server.post(
 );
 
 // JWT options
+server.use(express.static(path.resolve(__dirname, 'build')));
 server.use(cookieParser());
 
 const opts = {};
@@ -83,8 +84,6 @@ server.use(
 );
 
 //middlewares
-
-server.use(express.static(path.resolve(__dirname, 'build')));
 
 server.use(passport.initialize());
 server.use(passport.session());
@@ -120,10 +119,10 @@ passport.use(
     done
   ) {
     // by default passport uses username
-    console.log({ email, password });
+    
     try {
       const user = await User.findOne({ email: email });
-      console.log(email, password, user);
+      
       if (!user) {
         return done(null, false, { message: 'invalid credentials' }); // for safety
       }
