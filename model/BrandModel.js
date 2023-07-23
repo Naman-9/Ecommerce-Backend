@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const BrandSchema = new Schema({
     label: {
-        type: String,
+        type: String, 
         required: true,
         unique: true
     },
