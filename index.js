@@ -14,7 +14,6 @@ const ExtractJwt = passportJWT;
 const cookieParser = require('cookie-parser');
 const { User } = require('./model/UserModel');
 const { isAuth, sanitizeUser, cookieExtractor } = require('./services/common');
-const { adata } = require('./services/common');
 const path = require('path');
 const stripe = require('stripe')(process.env.STRIPE_SERVER_KEY);
 const { Order } = require('./model/OrderModel');
@@ -67,8 +66,8 @@ server.post(
   }
 );
 
-// JWT options
-server.use(express.static(path.resolve(__dirname, 'build')));
+// JWT options 
+server.use(express.static('build'));
 server.use(cookieParser());
 
 const opts = {};
@@ -93,14 +92,15 @@ server.use(
     exposedHeaders: ['X-Total-Count'],
   })
 );
+
 server.use(express.json()); // to parse req.body
 
 // we can also use JWT token for client-only auth
-server.use('/products', isAuth, productRoutes.router);
+server.use('/products', productRoutes.router);
 server.use('/categories', isAuth, categoriesRoutes.router);
 server.use('/brands', isAuth, brandsRoutes.router);
 server.use('/users',  isAuth, userRoutes.router);
-server.use('/auth', adata, authRoutes.router);
+server.use('/auth', authRoutes.router);
 server.use('/cart', isAuth, cartRoutes.router); 
 server.use('/orders', isAuth, orderRoutes.router);
 
@@ -109,7 +109,7 @@ server.get('*', (req, res) =>
   res.sendFile(path.resolve('build', 'index.html'))
 );
        
-// Passport Strategies 
+// Passport Strategies  
 passport.use( 
   'local',
   new LocalStrategy({ usernameField: 'email' }, async function (
@@ -201,6 +201,7 @@ server.post('/create-payment-intent', async (req, res) => {
   res.send({
     clientSecret: paymentIntent.client_secret,
   });
+  
 });
 
 main().catch((err) => console.log(err));

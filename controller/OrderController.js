@@ -29,7 +29,7 @@ exports.fetchOrdersByUser = async (req, res) => {
       const doc = await order.save();
       const user = await User.findById(order.user)
        // we can use await for this also 
-       sendMail({to:user.email,html:invoiceTemplate(order),subject:'Order Received' })
+      sendMail({to:user.email,html:invoiceTemplate(order),subject:'Order Received' })
              
       res.status(201).json(doc);
     } catch (err) {
@@ -43,7 +43,7 @@ exports.fetchOrdersByUser = async (req, res) => {
       const order = await Order.findByIdAndDelete(id);
       res.status(200).json(order);
     } catch (err) {
-      res.status(400).json(err);
+      res.status(400).json(err); 
     }
   };
   

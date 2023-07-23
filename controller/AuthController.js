@@ -56,12 +56,14 @@ exports.loginUser = async (req, res) => {
 
 exports.logout = async (req, res) => {
   res
-    .cookie('jwt', null, {
-      expires: new Date(Date.now()),
+    .setHeader('Cache-Control', 'no-store, max-age=0')
+    .cookie('jwt', '', {
+      expires: new Date(0),
       httpOnly: true,
     })
-    .sendStatus(200)
+    .sendStatus(200);
 };
+
 
 exports.checkAuth = async (req, res) => {
   
