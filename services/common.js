@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 const passport = require('passport');
 
 exports.isAuth = (req, res, next) => {
-  
+
   passport.authenticate('jwt', { session: false }, (err, user) => {
     if (err || !user) {
       // Handle authentication failure
@@ -14,10 +14,8 @@ exports.isAuth = (req, res, next) => {
   })(req, res, next);
 };
 
-
-
 exports.sanitizeUser = (user) => {
-  return { id: user.id, role: user.role };  
+  return { id: user.id, role: user.role };
 };
 
 exports.cookieExtractor = function (req) {
@@ -28,45 +26,27 @@ exports.cookieExtractor = function (req) {
   return token;
 };
 
-// Inside the file where `adata` is defined
-exports.adata = (req, res, next) => {
-   
-  next(); // Call next to proceed to the next middleware
-};
-
-
-
-// exports.isAuthorize = (req, res, next) => {
-//   const role = req.user.role;
-//     if(role === "user"){
-//         return res.status(401).json("Unauthorized");
-//     }
-
-  
-// }
-
-
 // Email 
 
-const transporter = nodemailer.createTransport({ 
+const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
-  secure: false,
+  secure: false, // true for 465, false for other ports
   auth: {
-    user: 'namancp7@gmail.com',
-    pass: process.env.MAIL_PASSWORD
-  }
+    user: 'namancp7@gmail.com', // gmail
+    pass: process.env.MAIL_PASSWORD, // pass
+  },
 });
 
-exports.sendMail = async function ({to, subject, text, html}) {
+exports.sendMail = async function ({ to, subject, text, html }) {
   const info = await transporter.sendMail({
     from: '"E-commerce" <namancp7@gmail.com>',
     to,
     subject,
     text,
     html,
-  }); 
-  return info; 
+  });
+  return info;
 };
 
 exports.invoiceTemplate = function (order) {
